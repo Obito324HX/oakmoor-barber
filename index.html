@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>FreshCuts — Barbershop, Cairo Road, Lusaka</title>
+<meta name="description" content="FreshCuts Barbershop on Cairo Road, Lusaka. Fresh fades, sharp lineups, book your slot on WhatsApp."/>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,600;9..144,700;9..144,900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+
+  :root{
+    --charcoal:#1C1815;
+    --charcoal-2:#252019;
+    --bone:#F2EDE4;
+    --bone-dim:#D8D0C0;
+    --red:#C8453D;
+    --red-dim:#9C332D;
+    --brass:#C99A3F;
+    --green:#2F4538;
+    --green-light:#496B57;
+    --ink:#0F0D0B;
+  }
+
+  html{scroll-behavior:smooth;}
+
+  body{
+    background:var(--bone);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+
+  h1,h2,h3,.display{
+    font-family:'Fraunces',serif;
+    letter-spacing:-0.01em;
+  }
+
+  /* ───── QUEUE TICKER (signature element) ───── */
+  .ticker-bar{
+    background:var(--ink);
+    color:var(--bone);
+    overflow:hidden;
+    white-space:nowrap;
+    border-bottom:1px solid #000;
+  }
+
+  .ticker-track{
+    display:inline-flex;
+    align-items:center;
+    gap:3rem;
+    padding:0.5rem 0;
+    animation:scroll-left 22s linear infinite;
+  }
+
+  .ticker-track span{
+    font-family:'Inter',sans-serif;
+    font-size:0.78rem;
+    font-weight:600;
+    letter-spacing:0.04em;
+    display:inline-flex;
+    align-items:center;
+    gap:0.5rem;
+  }
+
+  .ticker-dot{
+    width:6px;height:6px;
+    border-radius:50%;
+    background:var(--green-light);
+    display:inline-block;
+    animation:blink 1.6s ease-in-out infinite;
+  }
+
+  .ticker-dot.busy{ background:var(--red); }
+
+  @keyframes blink{ 0%,100%{opacity:1;} 50%{opacity:0.35;} }
+  @keyframes scroll-left{
+    0%{transform:translateX(0);}
+    100%{transform:translateX(-50%);}
+  }
+
+  /* ───── NAV ───── */
+  nav{
+    position:sticky;top:0;z-index:100;
+    background:var(--ink);
+    display:flex;align-items:center;justify-content:space-between;
+    padding:1.1rem 2.5rem;
+  }
+
+  .logo{
+    font-family:'Fraunces',serif;
+    font-weight:700;
+    font-size:1.3rem;
+    color:var(--bone);
+  }
+  .logo span{color:var(--red);}
+
+  .nav-links{display:flex;gap:2rem;list-style:none;align-items:center;}
+  .nav-links a{
+    color:var(--bone-dim);
+    text-decoration:none;
+    font-size:0.85rem;
+    font-weight:500;
+    transition:color 0.2s;
+  }
+  .nav-links a:hover{color:var(--bone);}
+
+  .nav-book{
+    background:var(--red);
+    color:var(--bone) !important;
+    padding:0.5rem 1.1rem;
+    border-radius:3px;
+    font-weight:600 !important;
+  }
+  .nav-book:hover{background:var(--red-dim);}
+
+  /* ───── HERO ───── */
+  .hero{
+    background:var(--ink);
+    color:var(--bone);
+    padding:5rem 2.5rem 6rem;
+    text-align:center;
+    position:relative;
+  }
+
+  .hero::after{
+    content:'';
+    position:absolute;
+    bottom:0;left:0;right:0;
+    height:120px;
+    background:repeating-linear-gradient(135deg,var(--red) 0 28px, var(--green) 28px 56px, var(--brass) 56px 84px);
+    opacity:0.06;
+    pointer-events:none;
+  }
+
+  .hero-tag{
+    display:inline-flex;
+    align-items:center;
+    gap:0.5rem;
+    border:1px solid var(--green-light);
+    color:var(--green-light);
+    font-size:0.72rem;
+    font-weight:600;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    padding:0.35rem 0.9rem;
+    border-radius:100px;
+    margin-bottom:2rem;
+  }
+  .hero-tag::before{
+    content:'';
+    width:6px;height:6px;border-radius:50%;
+    background:var(--green-light);
+  }
+
+  .hero h1{
+    font-size:clamp(2.6rem,7vw,5rem);
+    font-weight:600;
+    line-height:1.04;
+    margin-bottom:0.5rem;
+  }
+  .hero h1 .accent{
+    font-weight:900;
+    font-style:italic;
+    color:var(--red);
+  }
+
+  .hero-sub{
+    max-width:480px;
+    margin:1.5rem auto 2.5rem;
+    color:var(--bone-dim);
+    font-size:1.02rem;
+  }
+
+  .hero-actions{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;}
+
+  .btn{
+    display:inline-flex;align-items:center;gap:0.5rem;
+    padding:0.9rem 1.8rem;
+    border-radius:3px;
+    font-weight:600;
+    font-size:0.9rem;
+    text-decoration:none;
+    transition:transform 0.15s, background 0.2s;
+    border:none;
+    cursor:pointer;
+  }
+  .btn:hover{transform:translateY(-2px);}
+
+  .btn-primary{ background:var(--red); color:var(--bone); }
+  .btn-primary:hover{ background:var(--red-dim); }
+
+  .btn-ghost{ background:transparent; color:var(--bone); border:1px solid #4A443C; }
+  .btn-ghost:hover{ border-color:var(--bone-dim); }
+
+  .btn-whatsapp{ background:#25D366; color:#06210F; }
+  .btn-whatsapp:hover{ background:#1FB955; }
+
+  /* ───── SECTION SHARED ───── */
+  .section{ padding:5.5rem 2.5rem; max-width:1080px; margin:0 auto; }
+
+  .eyebrow{
+    font-size:0.72rem;
+    font-weight:700;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--red);
+    margin-bottom:0.6rem;
+  }
+
+  .section-title{
+    font-size:clamp(1.8rem,4vw,2.6rem);
+    font-weight:600;
+    margin-bottom:2.8rem;
+  }
+
+  /* ───── SERVICES ───── */
+  .services-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:1px;
+    background:#D8D0C0;
+    border:1px solid #D8D0C0;
+  }
+
+  .service-card{
+    background:var(--bone);
+    padding:2.2rem;
+    display:flex;
+    flex-direction:column;
+    gap:0.5rem;
+    transition:background 0.2s;
+  }
+  .service-card:hover{ background:#fff; }
+
+  .service-name{ font-family:'Fraunces',serif; font-size:1.3rem; font-weight:600; }
+  .service-desc{ font-size:0.88rem; color:#5A5247; flex:1; }
+
+  .service-price{
+    font-family:'Fraunces',serif;
+    font-size:1.5rem;
+    font-weight:700;
+    color:var(--red);
+    margin-top:0.5rem;
+  }
+
+  /* ───── BARBERS ───── */
+  .barbers-row{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:2rem;
+  }
+
+  .barber-card{ text-align:center; }
+
+  .barber-avatar{
+    width:96px;height:96px;
+    border-radius:50%;
+    margin:0 auto 1rem;
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Fraunces',serif;
+    font-size:1.6rem;
+    font-weight:700;
+    color:var(--bone);
+    background:linear-gradient(135deg,var(--green),var(--green-light));
+    border:3px solid var(--bone);
+    box-shadow:0 0 0 1px #D8D0C0;
+  }
+
+  .barber-name{ font-weight:700; font-size:1.05rem; }
+  .barber-role{ font-size:0.82rem; color:#7A7060; margin-bottom:0.5rem; }
+
+  .barber-specialty{
+    display:inline-block;
+    font-size:0.7rem;
+    font-weight:600;
+    letter-spacing:0.04em;
+    text-transform:uppercase;
+    color:var(--green);
+    background:rgba(47,69,56,0.08);
+    padding:0.25rem 0.7rem;
+    border-radius:100px;
+  }
+
+  /* ───── REVIEWS ───── */
+  .reviews-row{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:1.5rem;
+  }
+
+  .review-card{
+    background:#fff;
+    border:1px solid #E6DFD2;
+    border-radius:4px;
+    padding:1.75rem;
+    display:flex;
+    flex-direction:column;
+    gap:0.9rem;
+  }
+
+  .stars{ color:var(--brass); font-size:0.85rem; letter-spacing:0.15em; }
+
+  .review-text{ font-size:0.92rem; font-style:italic; color:#3A352E; flex:1; }
+  .review-name{ font-weight:700; font-size:0.85rem; }
+
+  /* ───── CTA ───── */
+  .cta-section{
+    background:var(--ink);
+    color:var(--bone);
+    text-align:center;
+    padding:5rem 2.5rem;
+  }
+
+  .cta-section h2{ font-size:clamp(1.8rem,4vw,2.6rem); margin-bottom:0.75rem; }
+  .cta-sub{ color:var(--bone-dim); max-width:440px; margin:0 auto 2.2rem; }
+
+  .info-strip{
+    margin-top:3.5rem;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:1px;
+    background:#3A332B;
+    border:1px solid #3A332B;
+    text-align:center;
+  }
+  .info-cell{ background:var(--charcoal-2); padding:1.5rem; }
+  .info-label{ font-size:0.68rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--brass); margin-bottom:0.4rem; }
+  .info-value{ font-weight:600; font-size:0.95rem; }
+
+  /* ───── FOOTER ───── */
+  footer{
+    background:var(--ink);
+    color:#7A7060;
+    text-align:center;
+    font-size:0.78rem;
+    padding:1.5rem;
+    border-top:1px solid #3A332B;
+  }
+  footer a{ color:var(--bone-dim); text-decoration:none; }
+
+  .demo-banner{
+    background:var(--brass);
+    color:var(--ink);
+    text-align:center;
+    font-size:0.78rem;
+    font-weight:600;
+    padding:0.6rem 1rem;
+  }
+  .demo-banner a{ color:var(--ink); text-decoration:underline; font-weight:700; }
+
+  /* ───── RESPONSIVE ───── */
+  @media (max-width:760px){
+    nav{padding:1rem 1.25rem;}
+    .nav-links{ gap:1rem; }
+    .nav-links a:not(.nav-book){ display:none; }
+    .hero{padding:3.5rem 1.25rem 4rem;}
+    .section{padding:4rem 1.25rem;}
+    .services-grid{grid-template-columns:1fr;}
+    .barbers-row{grid-template-columns:1fr;gap:2.5rem;}
+    .reviews-row{grid-template-columns:1fr;}
+    .info-strip{grid-template-columns:1fr;}
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    .ticker-track{ animation:none; }
+    .ticker-dot{ animation:none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="demo-banner">
+  🪒 This is a demo site built by <a href="https://obito324hx.github.io/Portfolio/" target="_blank">Cletus Bwalya</a> — want one like it for your business? <a href="https://wa.me/260775580799?text=Hi%20Cletus%2C%20I%20saw%20the%20FreshCuts%20demo%20and%20I%27d%20like%20a%20website%20like%20this%20for%20my%20business." target="_blank">Message on WhatsApp →</a>
+</div>
+
+<div class="ticker-bar">
+  <div class="ticker-track">
+    <span><span class="ticker-dot"></span> Walk-ins welcome — current wait ~10 min</span>
+    <span><span class="ticker-dot busy"></span> Saturday slots filling fast — book ahead</span>
+    <span>📍 Cairo Road, Lusaka</span>
+    <span>🕗 Open today until 7pm</span>
+    <span><span class="ticker-dot"></span> Walk-ins welcome — current wait ~10 min</span>
+    <span><span class="ticker-dot busy"></span> Saturday slots filling fast — book ahead</span>
+    <span>📍 Cairo Road, Lusaka</span>
+    <span>🕗 Open today until 7pm</span>
+  </div>
+</div>
+
+<nav>
+  <div class="logo">Fresh<span>Cuts</span></div>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#barbers">Barbers</a></li>
+    <li><a href="https://wa.me/260775580799" target="_blank" class="nav-book">Book Now</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div class="hero-tag">Now open on Cairo Road</div>
+  <h1>Look sharp.<br><span class="accent">Feel fresh.</span></h1>
+  <p class="hero-sub">
+    Lusaka's cleanest cuts. Walk in or book on WhatsApp — we'll have you in the chair fast.
+  </p>
+  <div class="hero-actions">
+    <a href="https://wa.me/260775580799?text=Hi%2C%20I%27d%20like%20to%20book%20a%20cut%20at%20FreshCuts." target="_blank" class="btn btn-whatsapp">💬 Book via WhatsApp</a>
+    <a href="#services" class="btn btn-ghost">View Services</a>
+  </div>
+</section>
+
+<section class="section" id="services">
+  <div class="eyebrow">What We Offer</div>
+  <h2 class="section-title">Our Services</h2>
+
+  <div class="services-grid">
+    <div class="service-card">
+      <div class="service-name">Fresh Cut</div>
+      <div class="service-desc">Clean fade, taper, or trim — your style, done right.</div>
+      <div class="service-price">K50</div>
+    </div>
+    <div class="service-card">
+      <div class="service-name">Shape Up</div>
+      <div class="service-desc">Crisp edge-up on hairline, beard, and sideburns.</div>
+      <div class="service-price">K30</div>
+    </div>
+    <div class="service-card">
+      <div class="service-name">Cut + Beard</div>
+      <div class="service-desc">Full haircut with beard trim and hot towel finish.</div>
+      <div class="service-price">K80</div>
+    </div>
+    <div class="service-card">
+      <div class="service-name">Kids Cut</div>
+      <div class="service-desc">Patient, careful cuts for boys under 12.</div>
+      <div class="service-price">K40</div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="barbers">
+  <div class="eyebrow">The Team</div>
+  <h2 class="section-title">Meet Your Barbers</h2>
+
+  <div class="barbers-row">
+    <div class="barber-card">
+      <div class="barber-avatar">KB</div>
+      <div class="barber-name">Kelvin B.</div>
+      <div class="barber-role">Head Barber · 8 yrs</div>
+      <span class="barber-specialty">Fades & Tapers</span>
+    </div>
+    <div class="barber-card">
+      <div class="barber-avatar">CM</div>
+      <div class="barber-name">Chanda M.</div>
+      <div class="barber-role">Fade Specialist · 5 yrs</div>
+      <span class="barber-specialty">Sharp Lineups</span>
+    </div>
+    <div class="barber-card">
+      <div class="barber-avatar">TN</div>
+      <div class="barber-name">Tawanda N.</div>
+      <div class="barber-role">Beard Expert · 4 yrs</div>
+      <span class="barber-specialty">Hot Towel Finish</span>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="eyebrow">What Clients Say</div>
+  <h2 class="section-title">Reviews</h2>
+
+  <div class="reviews-row">
+    <div class="review-card">
+      <div class="stars">★★★★★</div>
+      <p class="review-text">"Best fade in Lusaka, no cap. I drive from Chilenje every two weeks."</p>
+      <div class="review-name">Mulenga K.</div>
+    </div>
+    <div class="review-card">
+      <div class="stars">★★★★★</div>
+      <p class="review-text">"Booked on WhatsApp, was in the chair 10 minutes after I arrived. Clean shop, sharp cut."</p>
+      <div class="review-name">Bwalya T.</div>
+    </div>
+    <div class="review-card">
+      <div class="stars">★★★★★</div>
+      <p class="review-text">"Brought my son here for the first time. The barber was patient and the cut was perfect."</p>
+      <div class="review-name">Patricia N.</div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <h2>Ready for a fresh cut?</h2>
+  <p class="cta-sub">Message us on WhatsApp — tell us your barber, your style, and when you're coming.</p>
+  <a href="https://wa.me/260775580799?text=Hi%2C%20I%27d%20like%20to%20book%20a%20cut%20at%20FreshCuts." target="_blank" class="btn btn-whatsapp">💬 Book on WhatsApp</a>
+
+  <div class="info-strip">
+    <div class="info-cell">
+      <div class="info-label">Location</div>
+      <div class="info-value">Cairo Road, Lusaka</div>
+    </div>
+    <div class="info-cell">
+      <div class="info-label">Hours</div>
+      <div class="info-value">Mon–Sat 8am–7pm</div>
+    </div>
+    <div class="info-cell">
+      <div class="info-label">Walk-ins</div>
+      <div class="info-value">Always welcome</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  © 2026 FreshCuts · Lusaka, Zambia — Demo site built by <a href="https://obito324hx.github.io/Portfolio/" target="_blank">Cletus Bwalya</a>
+</footer>
+
+</body>
+</html>
