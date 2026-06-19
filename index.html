@@ -687,7 +687,10 @@
       .nav-hamburger { display: flex; }
 
       .hero { padding: 7rem 1.25rem 4rem; }
-      .hero-stats { gap: 1.5rem; }
+      .hero-actions { flex-direction: column; }
+      .btn-wa, .btn-ghost { width: 100%; justify-content: center; }
+      .hero-stats { gap: 1rem; display: grid; grid-template-columns: 1fr 1fr; }
+      .hero-stat-val { font-size: 1.3rem; }
 
       .gallery-grid {
         grid-template-columns: repeat(2, 1fr);
